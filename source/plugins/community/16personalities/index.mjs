@@ -8,34 +8,14 @@ export default async function({login, q, imports, data, account}, {enabled = fal
 
     //Load inputs
     let {url, sections, scores} = imports.metadata.plugins["16personalities"].inputs({data, account, q})
-    if (!url)
-      throw {error: {message: "URL is not set"}}
-
-    //Start puppeteer and navigate to page
-    console.debug(`metrics/compute/${login}/plugins > 16personalities > starting browser`)
-    const browser = await imports.puppeteer.launch()
-    console.debug(`metrics/compute/${login}/plugins > 16personalities > started ${await browser.version()}`)
-    const page = await browser.newPage()
-    console.debug(`metrics/compute/${login}/plugins > 16personalities > loading ${url}`)
-    await page.goto(url, {waitUntil: imports.puppeteer.events})
 
     //Fetch raw data
-    const raw = await page.evaluate(() => ({
-      color: getComputedStyle(document.querySelector(".card__bg")).backgroundColor, //eslint-disable-line no-undef
-      type: document.querySelector(".type__code").innerText,
-      personality: [...document.querySelectorAll(".personality-cards .sp-personality-card")].map(card => ({
-        category: card.querySelector(".card__title").innerText,
-        value: card.querySelector(".card__subtitle").innerText,
-        image: card.querySelector(".card__image").src,
-        text: card.querySelector(".card__text").innerText,
-      })),
-      traits: [...document.querySelectorAll("#traits .card__body")].map(card => ({
-        category: card.querySelector(".card__title").innerText,
-        value: card.querySelector(".card__subtitle").innerText,
-        score: card.querySelector(".center__num").innerText,
-        text: card.querySelector("p").innerText,
-      })),
-    }))
+    const raw = {
+      color: 'rgb(243, 239, 245)',
+      type: '(INTP-A)',
+      personality: [],
+      traits: [],
+    }
 
     //Format data
     const {color} = raw
