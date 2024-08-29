@@ -198,7 +198,7 @@ export default async function({login, q}, {conf, data, rest, graphql, plugins, q
     commits: computed.commits,
     prs: data.user.contributionsCollection.totalPullRequestContributions,
     issues: data.user.contributionsCollection.totalIssueContributions,
-    reviews: data.user.contributionsCollection.totalPullRequestReviewContributions,
+    reviews: computed.repositories.pr_merged,
     stars: computed.repositories.stargazers,
     followers: data.user.followers.totalCount
   })
