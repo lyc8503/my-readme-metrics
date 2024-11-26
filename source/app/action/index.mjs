@@ -536,6 +536,17 @@ function quit(reason) {
         }
       }
 
+      // Add a sanity check
+      const stargazers = Number((/(\d+) Stargazers/.exec(buffer.content.toString()))?.[1])
+      if (stargazers > 0) {
+        console.log("Sanity check passed: " + stargazers)
+      } else {
+        console.log("!! Sanity check failed, skip uploading: " + stargazers)
+        committer.gist = false
+        committer.commit = false
+        committer.pr = false
+      }
+
       //Upload to gist (this is done as user since committer_token may not have gist rights)
       if (committer.gist) {
         await retry(async () => {
