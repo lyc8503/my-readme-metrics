@@ -157,6 +157,7 @@ export default async function({login, graphql, rest, data, q, queries, imports, 
           }
           catch (error) {
             console.debug(`metrics/compute/${login}/base > failed to retrieve ${_batch} repositories after ${cursor}, this is probably due to an API timeout, halving batch`)
+            console.debug(`actual error: ${error}`)
             _batch = Math.floor(_batch / 2)
             if (_batch < 1) {
               console.debug(`metrics/compute/${login}/base > failed to retrieve repositories, cannot halve batch anymore`)
