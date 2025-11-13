@@ -149,6 +149,8 @@ export default async function({login, graphql, rest, data, q, queries, imports, 
         const options = {repositories: {forks, affiliations, constraints: ""}, repositoriesContributedTo: {forks: "", affiliations: "", constraints: ", includeUserRepositories: false, contributionTypes: COMMIT"}}[type] ?? null
         data.user[type] = data.user[type] ?? {}
         data.user[type].nodes = data.user[type].nodes ?? []
+
+        _batch = 25
         do {
           console.debug(`metrics/compute/${login}/base > retrieving ${type} after ${cursor}`)
           const request = {}
